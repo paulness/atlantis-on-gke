@@ -1,4 +1,4 @@
-provider "google" {
+provider "google-beta" {
   region  = "${var.region}"
   project = "${var.project}"
 }
@@ -76,9 +76,10 @@ data "google_container_engine_versions" "versions" {
 }
 
 resource "google_container_cluster" "cluster" {
-  name    = "terraform-atlantis"
-  project = "${google_project.project.project_id}"
-  region  = "${var.region}"
+  provider = "google-beta"
+  name     = "terraform-atlantis"
+  project  = "${google_project.project.project_id}"
+  region   = "${var.region}"
 
   min_master_version = "${data.google_container_engine_versions.versions.latest_master_version}"
   node_version       = "${data.google_container_engine_versions.versions.latest_node_version}"
